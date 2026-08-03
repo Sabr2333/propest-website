@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propest AI — Bedrijfsscreening</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f7f7f8;
+    --surface-2: #eeeef0;
+    --border: #e2e2e5;
+    --text: #111;
+    --text-dim: #555;
+    --text-ghost: #999;
+    --accent: #111;
+    --accent-dim: rgba(56,90,209,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #ffffff;
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 780px; margin: 0 auto; padding: 72px 52px; }
+
+  /* ====== HEADER ====== */
+  .header {
+    margin-bottom: 64px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 70vh;
+    justify-content: center;
+  }
+
+  .logo { margin-bottom: 32px; }
+  .logo img { height: 36px; }
+
+  .client-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #385AD1;
+    margin-bottom: 8px;
+    display: none;
+  }
+
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+
+  .header h1 { color: var(--text); }
+  .header h1 span { color: #385AD1; }
+
+  .header .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    max-width: 480px;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .header-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .header-chip {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    letter-spacing: 0.3px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 36px;
+    justify-content: center;
+  }
+
+  .header-meta-item { }
+
+  .header-meta-item label {
+    display: block;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-ghost);
+    margin-bottom: 2px;
+  }
+
+  .header-meta-item span {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ====== PLACEHOLDER ====== */
+  .ph {
+    font-family: 'Space Grotesk', sans-serif;
+    background: rgba(56,90,209,0.07);
+    color: #385AD1;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.82em;
+    font-weight: 600;
+    border: 1px solid rgba(56,90,209,0.15);
+  }
+
+  .info-card p .ph,
+  .opl-card p .ph,
+  .section > p .ph {
+    color: var(--text-dim);
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.08);
+  }
+
+  .ic {
+    flex-shrink: 0;
+    animation: icPulse 2s ease-in-out infinite;
+  }
+  @keyframes icPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.12); opacity: 0.85; }
+  }
+
+  .ph-editing {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  /* ====== SPACER GRADIENT ====== */
+  .spacer {
+    position: relative;
+  }
+  .spacer.no-gradient::before { display: none !important; }
+
+  .spacer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 120px;
+    background: radial-gradient(ellipse at center bottom, rgba(56,90,209,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ====== SECTION ====== */
+  .section { margin-bottom: 56px; }
+
+  .section-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #385AD1;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, rgba(56,90,209,0.06) 0%, rgba(56,90,209,0.02) 100%);
+    border-left: 3px solid #385AD1;
+    padding: 10px 16px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .section h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+    color: var(--text);
+  }
+
+  .section h2 em {
+    font-style: normal;
+    color: #385AD1;
+  }
+
+  .section > p {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  /* ====== SPACER ====== */
+  .spacer { height: 0; background: none; margin: 0 0 56px; }
+
+  /* ====== STATS (horizontal strip, not cards) ====== */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    padding: 0;
+    margin-bottom: 56px;
+  }
+
+  .stat-item {
+    text-align: center;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 22px 16px;
+  }
+
+  .stat-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #385AD1;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ====== INFO CARDS (2-col, rounded, no icon) ====== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .info-card {
+    background: var(--surface);
+    border: none;
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+
+  .info-card h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #385AD1;
+    margin-bottom: 6px;
+  }
+
+  .info-card p {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ====== KNELPUNT LIST (numbered, no card) ====== */
+  .kn-list { margin-bottom: 16px; }
+
+  .kn-item {
+    display: flex;
+    gap: 18px;
+    padding: 22px 0;
+    border-bottom: none;
+    align-items: flex-start;
+  }
+
+  .kn-item:last-child { border-bottom: none; }
+
+  .kn-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .kn-body { flex: 1; }
+
+  .kn-body h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+
+  .kn-body h4 .ph { color: #385AD1; background: rgba(56,90,209,0.07); border-color: rgba(56,90,209,0.15); }
+
+  .kn-body p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ====== OPLOSSING CARD (single, accent left border) ====== */
+  .opl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 14px 14px 0;
+    padding: 28px 28px;
+  }
+
+  .opl-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #385AD1;
+  }
+
+  .opl-card h3 .ph { color: #385AD1; background: rgba(56,90,209,0.07); border-color: rgba(56,90,209,0.15); }
+
+  .opl-card p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ====== INVESTERING (clean rows inside surface) ====== */
+  .inv-box {
+    background: var(--surface);
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .inv-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+  }
+
+  .inv-row:last-child { }
+
+  .inv-row-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  .inv-row-label small {
+    font-size: 0.72rem;
+    color: var(--text-ghost);
+  }
+
+  .inv-row-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .inv-total {
+    background: var(--surface-2);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .inv-total-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #385AD1;
+  }
+
+  .inv-total-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #385AD1;
+  }
+
+  /* ====== INCLUDED (simple check list) ====== */
+  .inc-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+
+  .inc-item {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .inc-item strong { color: #385AD1; }
+
+  .inc-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: var(--accent);
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* ====== IMPACT TABLE ====== */
+  .impact-box {
+    background: var(--surface);
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .impact-header {
+    padding: 14px 24px;
+  }
+
+  .impact-header span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #385AD1;
+  }
+
+  .impact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+  }
+
+  .impact-row:last-child { }
+
+  .impact-row-label { font-size: 0.85rem; color: var(--text-dim); }
+
+  .impact-row-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ====== RESULT CHIPS ====== */
+  .result-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .result-chip {
+    background: var(--surface);
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .result-chip-icon { font-size: 1rem; }
+
+  .result-chip-text {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .result-chip-sub {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    margin-left: 2px;
+  }
+
+  /* ====== TIMELINE (volgende stap) ====== */
+  .timeline { position: relative; padding-left: 28px; margin-bottom: 16px; }
+
+  .timeline::before { display: none; }
+
+  .tl-step {
+    position: relative;
+    padding: 0 0 28px 0;
+  }
+
+  .tl-step:last-child { padding-bottom: 0; }
+
+  .tl-dot {
+    position: absolute;
+    left: -25px;
+    top: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--text-ghost);
+  }
+
+  .tl-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: #385AD1;
+  }
+
+  .tl-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ====== FOOTER ====== */
+  .footer {
+    padding-top: 48px;
+    position: relative;
+  }
+
+  .footer::before { display: none; }
+
+  .footer-cta {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .footer-cta em { font-style: normal; color: #385AD1; }
+
+  .footer p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    font-size: 0.78rem;
+    color: var(--text-ghost);
+  }
+
+  .footer-links a {
+    color: var(--text-ghost);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 48px 24px; }
+    .stats-strip { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .inc-list { grid-template-columns: 1fr; }
+    .header-meta { flex-direction: column; gap: 12px; }
+    .result-chips { display: grid; grid-template-columns: 1fr 1fr; }
+    .client-logos-row { display: grid !important; grid-template-columns: 1fr 1fr !important; justify-items: center !important; align-items: center !important; gap: 1.5rem !important; max-width: 320px !important; margin: 0 auto !important; }
+    .client-logos-row img { width: 120px !important; height: 60px !important; }
+  }
+
+  /* Toolbar */
+  .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .toolbar.hidden { display: none; }
+  .toolbar-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .toolbar-btn:hover { background: var(--surface-2); }
+  .toolbar-btn.primary { background: #385AD1; color: #fff; border-color: #385AD1; }
+  .toolbar-btn.primary:hover { background: #2d4ab8; }
+  .toolbar-btn.danger { background: transparent; color: var(--text-dim); border-color: var(--border); }
+  .show-toolbar-btn {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 9998;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: none;
+    transition: all 0.2s;
+  }
+  .show-toolbar-btn:hover { background: var(--surface-2); }
+  body.toolbar-visible { padding-top: 52px; }
+  [contenteditable="true"] { outline: none; color: #385AD1; }
+</style>
+</head>
+<body class="toolbar-visible">
+
+<!-- TOOLBAR (excluded from download) -->
+<div class="toolbar" id="toolbar">
+  <button class="toolbar-btn primary" id="editBtn" onclick="toggleEdit()">Bewerk</button>
+  <button class="toolbar-btn" id="downloadBtn" onclick="downloadHTML()">Download als HTML</button>
+  <div style="flex:1"></div>
+  <button class="toolbar-btn danger" onclick="hideToolbar()">Hide</button>
+</div>
+<button class="show-toolbar-btn" id="showToolbarBtn" onclick="showToolbar()">Toon toolbar</button>
+<div class="page" style="background-color: #fff;">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo"><img src="WhatsApp_Image_2026-03-17_at_18.14.54__1_-removebg-preview.png" alt="Propest AI" style="height:36px;"></div>
+    <div class="client-label">Bedrijfsscreening voor <span class="ph">[Bedrijfsnaam]</span></div>
+    <h1>AI<br><span>SCAN</span></h1>
+    <div class="subtitle">
+      Strategisch ontworpen AI-oplossingen op maat, afgestemd op de geïdentificeerde verbeterpunten en efficiëntiekansen voor <span class="ph">[Bedrijfsnaam]</span>.
+    </div>
+    <div class="header-chips">
+      <span class="header-chip">AI Automatisering</span>
+      <span class="header-chip">Maatwerk Software</span>
+      <span class="header-chip">24/7 Digitale Kracht</span>
+      <span class="header-chip">Meetbaar Resultaat</span>
+    </div>
+    <div class="header-meta">
+      <div class="header-meta-item">
+        <label>Uitgevoerd door</label>
+        <span><span class="ph">[Naam]</span></span>
+      </div>
+      <div class="header-meta-item">
+        <label>Datum</label>
+        <span><span class="ph">[dd-mm-yyyy]</span></span>
+      </div>
+      <div class="header-meta-item">
+        <label>Contactpersoon</label>
+        <span><span class="ph">[Naam]</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-val">160+</div>
+      <div class="stat-label">Uur / mnd</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">35%</div>
+      <div class="stat-label">Groei</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">30d</div>
+      <div class="stat-label">Tot resultaat</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">24/7</div>
+      <div class="stat-label">Altijd aan</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 01 — OVER PROPEST AI -->
+  <div class="section">
+    <div class="section-num">01 — Over Propest AI</div>
+    <h2>Jouw digitale partner in <em>groei</em></h2>
+    <p>
+      Propest AI is gespecialiseerd in het ontwikkelen van op maat gemaakte AI-oplossingen voor bedrijven. Onze systemen automatiseren werkzaamheden, verhogen de productiviteit en creëren ruimte voor schaalbare groei.
+    </p>
+    <p>
+      Achter Propest AI staat een jong, gecertificeerd team van meer dan 30 developers dat snelheid, innovatie en kwaliteit combineert.
+    </p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 02 — ANALYSE HUIDIGE SITUATIE -->
+  <div class="section">
+    <div class="section-num">02 — Analyse huidige situatie</div>
+    <h2>Waar staat <span class="ph">[Bedrijfsnaam]</span> nu?</h2>
+    <p>
+      Op basis van onze screening hebben we de huidige situatie van <span class="ph">[Bedrijfsnaam]</span> in kaart gebracht. Hieronder de belangrijkste bevindingen.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <svg class="ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
+        <h4>Sector</h4>
+        <p><span class="ph">[Bijv. Vastgoedbeheer / E-commerce / Horeca]</span></p>
+      </div>
+      <div class="info-card">
+        <svg class="ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <h4>Teamgrootte</h4>
+        <p><span class="ph">[Bijv. 5-15 medewerkers]</span></p>
+      </div>
+      <div class="info-card">
+        <svg class="ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        <h4>Huidige tools</h4>
+        <p><span class="ph">[Bijv. Excel, Outlook, handmatige processen]</span></p>
+      </div>
+      <div class="info-card">
+        <svg class="ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        <h4>Concurrenten</h4>
+        <p><span class="ph">[Bijv. directe concurrenten in de markt]</span></p>
+      </div>
+      <div class="info-card">
+        <svg class="ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <h4>Omzetrange</h4>
+        <p><span class="ph">[Bijv. €500K - €2M per jaar]</span></p>
+      </div>
+    </div>
+
+    <div class="section-num" style="margin-top:24px">Huidige werkwijze</div>
+    <p style="margin-top:8px;color:var(--text-dim);font-size:0.92rem;line-height:1.8">
+      <span class="ph">[Beschrijving van hoe het bedrijf momenteel werkt. Welke taken worden handmatig uitgevoerd, welke systemen gebruiken ze, hoeveel tijd gaat er naar repetitief werk, etc.]</span>
+    </p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 03 — KNELPUNTEN -->
+  <div class="section">
+    <div class="section-num">03 — Knelpunten</div>
+    <h2>Gevonden <em>blokkades</em></h2>
+    <p>
+      Uit onze analyse zijn de volgende knelpunten naar voren gekomen die groei en efficiëntie belemmeren:
+    </p>
+
+    <div class="kn-list">
+      <div class="kn-item">
+        <div class="kn-num">01</div>
+        <div class="kn-body">
+          <h4><span class="ph">[Knelpunt 1 titel]</span></h4>
+          <p><span class="ph">[Beschrijving van het knelpunt en de impact op het bedrijf.]</span></p>
+        </div>
+      </div>
+      <div class="kn-item">
+        <div class="kn-num">02</div>
+        <div class="kn-body">
+          <h4><span class="ph">[Knelpunt 2 titel]</span></h4>
+          <p><span class="ph">[Beschrijving van het knelpunt en de impact op het bedrijf.]</span></p>
+        </div>
+      </div>
+      <div class="kn-item">
+        <div class="kn-num">03</div>
+        <div class="kn-body">
+          <h4><span class="ph">[Knelpunt 3 titel]</span></h4>
+          <p><span class="ph">[Beschrijving van het knelpunt en de impact op het bedrijf.]</span></p>
+        </div>
+      </div>
+      <div class="kn-item">
+        <div class="kn-num">04</div>
+        <div class="kn-body">
+          <h4><span class="ph">[Knelpunt 4 titel]</span></h4>
+          <p><span class="ph">[Beschrijving van het knelpunt en de impact op het bedrijf.]</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="opl-card" style="margin-top:28px;border-left:3px solid var(--accent);border-radius:0 14px 14px 0;">
+      <h3>Conclusie</h3>
+      <p><span class="ph">[Samenvatting van de belangrijkste knelpunten en wat dit betekent voor de groei van het bedrijf. Bijv. "De huidige werkwijze kost tijd, geld en schaalbaarheid. Met gerichte AI-inzet zijn deze blokkades op te lossen."]</span></p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 04 — AANBEVOLEN OPLOSSING -->
+  <div class="section">
+    <div class="section-num">04 — Aanbevolen oplossing</div>
+    <h2>Wat wij bouwen voor <span class="ph">[Bedrijfsnaam]</span></h2>
+    <p>
+      Op basis van de knelpunten adviseren wij de volgende AI-oplossing die direct impact maakt op jullie dagelijkse operatie:
+    </p>
+
+    <div class="opl-card">
+      <h3><span class="ph">[Totaaloplossing titel]</span></h3>
+      <p><span class="ph">[Beschrijving van de totaaloplossing die wij bouwen voor dit bedrijf. Wat het doet, welke processen het automatiseert, hoe het integreert met hun huidige werkwijze en welke resultaten ze kunnen verwachten.]</span></p>
+    </div>
+
+    <div class="opl-card" style="margin-top:14px;border-left-color:#385AD1;background:linear-gradient(90deg, rgba(56,90,209,0.04) 0%, var(--surface) 8%);">
+      <h3 style="color:#385AD1;">Resultaat & benefits</h3>
+      <p><span class="ph">[Bijv. Binnen 30 dagen operationeel. 80+ uur/maand tijdwinst. Schaalbaar zonder extra personeel. Volledige integratie met bestaande tools. ROI binnen 3 maanden zichtbaar.]</span></p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 05 — INVESTERING & SCOPE -->
+  <div class="section">
+    <div class="section-num">05 — Investering & scope</div>
+    <h2>De <em>investering</em></h2>
+    <p>
+      Alles is maatwerk en wordt afgestemd op jullie specifieke situatie. Hieronder een overzicht:
+    </p>
+
+    <div class="inv-box">
+      <div class="inv-row">
+        <span class="inv-row-label">AI systeem</span>
+        <span class="inv-row-val"><span class="ph">[€X.XXX]</span></span>
+      </div>
+      <div class="inv-row">
+        <span class="inv-row-label">Maandabonnement <small>(optioneel)</small></span>
+        <span class="inv-row-val"><span class="ph">[€X.XXX/mnd]</span></span>
+      </div>
+      <div class="inv-row">
+        <span class="inv-row-label">Ontwikkeltijd</span>
+        <span class="inv-row-val"><span class="ph">[X weken]</span></span>
+      </div>
+      <div class="inv-total">
+        <span class="inv-total-label">Totale investering</span>
+        <span class="inv-total-val"><span class="ph">[€X.XXX]</span></span>
+      </div>
+    </div>
+
+    <div class="section-num" style="margin-bottom:14px">Wat zit erin</div>
+    <div class="inc-list" style="grid-template-columns:1fr;gap:16px;">
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v4l3 3"/></svg> <strong>Maatwerk bouw</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Volledig op maat ontwikkeld en geconfigureerd voor jullie processen en werkwijze.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> <strong>Integraties</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Koppelingen met bestaande tools en systemen, geen dubbel werk, alles verbonden.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg> <strong>Team training</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Onboarding zodat het team direct kan werken met de nieuwe systemen.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> <strong>Dashboard</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Live overzicht van AI-activiteit, resultaten en team performance in real-time.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <strong>Resultaatgarantie</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Wij garanderen meetbaar resultaat. Wij optimaliseren kosteloos verder totdat de doelen behaald zijn.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l2 2"/><circle cx="12" cy="12" r="10"/></svg> <strong>Eerste maand gratis onderhoud</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Na oplevering onderhouden wij het systeem de eerste maand volledig kosteloos.</div>
+      </div>
+      <div class="inc-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#385AD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> <strong>Levenslange garantie</strong></div>
+        <div style="font-size:0.78rem;color:var(--text-dim);padding-left:26px;">Wij staan achter ons werk en bieden levenslange garantie op alles wat wij bouwen.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 06 — VERWACHTE RESULTATEN -->
+  <div class="section">
+    <div class="section-num">06 — Verwachte resultaten</div>
+    <h2>Wat dit oplevert voor <span class="ph">[Bedrijfsnaam]</span></h2>
+
+    <div class="impact-box">
+      <div class="impact-header"><span>Verwachte impact</span></div>
+      <div class="impact-row">
+        <span class="impact-row-label">Tijdswinst binnen het team</span>
+        <span class="impact-row-val"><span class="ph">[X uur/week]</span></span>
+      </div>
+      <div class="impact-row">
+        <span class="impact-row-label">Kostenbesparing per maand</span>
+        <span class="impact-row-val"><span class="ph">[€X.XXX/mnd]</span></span>
+      </div>
+      <div class="impact-row">
+        <span class="impact-row-label">Verwachte groei in leads / omzet</span>
+        <span class="impact-row-val"><span class="ph">[X%]</span></span>
+      </div>
+      <div class="impact-row">
+        <span class="impact-row-label">Foutreductie in data & processen</span>
+        <span class="impact-row-val"><span class="ph">[X%]</span></span>
+      </div>
+    </div>
+
+    <div class="result-chips">
+      <div class="result-chip">
+        <span class="result-chip-text"><span class="ph">[X]</span> uur/week <span class="result-chip-sub">bespaard</span></span>
+      </div>
+      <div class="result-chip">
+        <span class="result-chip-text"><span class="ph">[€X.XXX]</span>/mnd <span class="result-chip-sub">bespaard</span></span>
+      </div>
+      <div class="result-chip">
+        <span class="result-chip-text"><span class="ph">[X%]</span> <span class="result-chip-sub">groei</span></span>
+      </div>
+      <div class="result-chip">
+        <span class="result-chip-text">Schaalbaar <span class="result-chip-sub">24/7</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- 07 — VOLGENDE STAP -->
+  <div class="section">
+    <div class="section-num">07 — Volgende stap</div>
+    <h2>Van screening tot <em>live</em> systeem</h2>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Vervolggesprek</div>
+        <div class="tl-desc">We bespreken de screening, beantwoorden vragen en bepalen samen welke oplossingen prioriteit krijgen.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Configuratie & bouw</div>
+        <div class="tl-desc">Wij bouwen het complete systeem: alle AI-oplossingen, workflows, integraties en dashboard specifiek voor <span class="ph">[Bedrijfsnaam]</span>.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Oplevering & test</div>
+        <div class="tl-desc">Alles wordt getest met jullie echte data en processen. We lopen samen door het systeem heen.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Onboarding & live gang</div>
+        <div class="tl-desc">Training van het team, optimalisatie en volledige ontzorging van livegang.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer no-gradient"></div>
+
+  <!-- CLIENT LOGOS -->
+  <div style="text-align:center;margin-bottom:56px;">
+    <div style="font-size:0.62rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-ghost);margin-bottom:28px;">Vertrouwd door</div>
+    <div class="client-logos-row" style="display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:3rem;">
+      <img src="task_01kmtc3zdge9yavjfwz9sf799z_1774706635_img_0-removebg-preview.png" alt="Javan Food Group" style="height:60px;width:140px;object-fit:contain;opacity:0.9;">
+      <img src="logo_4-removebg-preview.png" alt="Zielinski" style="height:60px;width:140px;object-fit:contain;opacity:0.9;">
+      <img src="dc_logo-removebg-preview.png" alt="DC Diensten" style="height:100px;width:180px;object-fit:contain;opacity:0.9;">
+      <img src="Hogeschool_Rotterdam-removebg-preview.png" alt="Hogeschool Rotterdam" style="height:80px;width:140px;object-fit:contain;opacity:0.9;">
+    </div>
+  </div>
+
+  <div class="spacer no-gradient"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-cta">Klaar om te <em>versnellen</em>?</div>
+    <p>Je offerte staat al in de startblokken 😉</p>
+    <div class="footer-links">
+      <a href="https://propest.ai">propest.ai</a>
+      <a href="mailto:info@propest.ai">info@propest.ai</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let editing = false;
+  function toggleEdit() {
+    editing = !editing;
+    const btn = document.getElementById('editBtn');
+    const editables = document.querySelectorAll('.page h1, .page h2, .page h3, .page h4, .page p, .page div.section-num, .page .footer-cta, .page .ph, .page .inc-item div, .page .opl-card p, .page .stat-val, .page .stat-label');
+    if (editing) {
+      btn.textContent = 'Stop bewerken';
+      editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+      // Remove placeholder styling so filled-in fields look like normal text
+      document.querySelectorAll('.ph').forEach(el => {
+        el.classList.remove('ph');
+        el.classList.add('ph-editing');
+      });
+    } else {
+      btn.textContent = 'Bewerk';
+      editables.forEach(el => el.removeAttribute('contenteditable'));
+      // Keep edited placeholders as normal text (don't restore .ph class)
+    }
+  }
+
+  function hideToolbar() {
+    document.getElementById('toolbar').classList.add('hidden');
+    document.getElementById('showToolbarBtn').style.display = 'block';
+    document.body.classList.remove('toolbar-visible');
+  }
+
+  function showToolbar() {
+    document.getElementById('toolbar').classList.remove('hidden');
+    document.getElementById('showToolbarBtn').style.display = 'none';
+    document.body.classList.add('toolbar-visible');
+  }
+
+  async function downloadHTML() {
+    // Stop editing first
+    if (editing) toggleEdit();
+    const btn = document.getElementById('downloadBtn');
+    btn.textContent = 'Bezig...';
+    btn.disabled = true;
+    try {
+      // Convert all images to base64
+      const imgs = document.querySelectorAll('img');
+      const cache = {};
+      await Promise.all([...imgs].map(async img => {
+        const src = img.getAttribute('src');
+        if (!src || src.startsWith('data:')) return;
+        if (cache[src]) return;
+        try {
+          const resp = await fetch(src);
+          const blob = await resp.blob();
+          const reader = new FileReader();
+          const b64 = await new Promise(r => { reader.onloadend = () => r(reader.result); reader.readAsDataURL(blob); });
+          cache[src] = b64;
+        } catch(e) {}
+      }));
+      // Clone the document
+      const clone = document.documentElement.cloneNode(true);
+      // Remove toolbar, show button, and script
+      const toolbar = clone.querySelector('#toolbar');
+      const showBtn = clone.querySelector('#showToolbarBtn');
+      const scripts = clone.querySelectorAll('script');
+      if (toolbar) toolbar.remove();
+      if (showBtn) showBtn.remove();
+      scripts.forEach(s => s.remove());
+      // Remove toolbar CSS and body class
+      clone.querySelector('body').classList.remove('toolbar-visible');
+      // Clean up contenteditable attributes
+      clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      // Replace image srcs with base64
+      clone.querySelectorAll('img').forEach(img => {
+        const src = img.getAttribute('src');
+        if (cache[src]) img.setAttribute('src', cache[src]);
+      });
+      // Build HTML
+      const html = '<!DOCTYPE html>\n<html lang="nl">' + clone.innerHTML + '</html>';
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Propest AI — Bedrijfspresentatie.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch(e) { console.error(e); }
+    btn.textContent = 'Download als HTML';
+    btn.disabled = false;
+  }
+</script>
+</body>
+</html>

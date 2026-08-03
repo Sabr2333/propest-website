@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Propest AI</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-mode="widget">
+  <div id="app" class="app widget-app">
+    <header class="topbar">
+      <button class="icon-btn" id="btnClose" aria-label="Sluiten">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="status-pill"><span class="dot"><span class="dot-inner"></span></span><span>PROPEST&nbsp;AI</span></div>
+      <button class="icon-btn" id="btnNew" aria-label="Nieuwe chat">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </button>
+    </header>
+
+    <main class="stage" id="stage">
+      <section class="start" id="startScreen" hidden>
+        <h1 class="greeting">hé, daar.</h1>
+        <p class="subgreeting">Waarmee kan Propest AI je helpen?</p>
+        <span class="eyebrow">Virtuele klantenservice</span>
+        <div class="quick" id="quickActions">
+          <button class="quick-btn" data-prompt="Wat doet Propest AI?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.1 3.7L7 20l5-3.5 5 3.5-2.1-6.3L20 10l-6.1-1.2Z"/></svg></span><span>Wat doet Propest AI?</span></button>
+          <button class="quick-btn" data-prompt="Welke AI-oplossingen bieden jullie?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span>Welke AI-oplossingen bieden jullie?</span></button>
+          <button class="quick-btn" data-prompt="Kan AI mijn bedrijf automatiseren?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/><path d="m21 12-3-3-3 3"/></svg></span><span>Kan AI mijn bedrijf automatiseren?</span></button>
+          <button class="quick-btn" data-prompt="Kan Propest AI een app bouwen?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/><circle cx="6.5" cy="6" r=".6"/><circle cx="9" cy="6" r=".6"/></svg></span><span>Kan Propest AI een app bouwen?</span></button>
+          <button class="quick-btn" data-prompt="Wat kan Elara voor mijn bedrijf doen?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M9 3h6"/><path d="M12 3v4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M9 17h6"/></svg></span><span>Wat kan Elara voor mijn bedrijf doen?</span></button>
+          <button class="quick-btn" data-prompt="Hoe kan ik contact opnemen met Propest AI?"><span class="quick-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><circle cx="12" cy="17.5" r=".6"/></svg></span><span>Contact &amp; support</span></button>
+        </div>
+      </section>
+      <section class="thread" id="thread" hidden></section>
+    </main>
+
+    <footer class="composer-wrap">
+      <div class="attachments" id="attachments" hidden></div>
+      <div class="composer">
+        <input type="file" id="fileInput" multiple accept="image/*,.pdf,.docx,.txt,.md,.csv" hidden />
+        <button class="icon-btn small" id="btnAttach" aria-label="Bijlage toevoegen">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 11.5-9.5 9.5a5 5 0 0 1-7-7l9.5-9.5a3.5 3.5 0 0 1 5 5l-9.5 9.5a2 2 0 0 1-3-3l8.5-8.5"/></svg>
+        </button>
+        <textarea id="taInput" rows="1" placeholder="Stel je vraag…" autocomplete="off"></textarea>
+        <button class="icon-btn small" id="btnMic" aria-label="Spraak opname" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+        </button>
+        <button class="icon-btn send" id="btnSend" aria-label="Verstuur" disabled>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="./chat.js"></script>
+</body>
+</html>

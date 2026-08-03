@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/elara-wachtlijst/",
+      "destination": "/elara-wachtlijst",
+      "permanent": true
+    }
+  ]
+}

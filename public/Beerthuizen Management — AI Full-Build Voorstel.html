@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beerthuizen Management — AI Full-Build Voorstel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-2: #1a1a1a;
+    --border: #222;
+    --text: #f0f0f0;
+    --text-dim: #888;
+    --text-ghost: #555;
+    --accent: #c8ff00;
+    --accent-dim: rgba(200,255,0,0.12);
+    --cyan: #00d4ff;
+    --cyan-dim: rgba(0,212,255,0.1);
+    --orange: #ff8c42;
+    --green: #00e676;
+    --purple: #a855f7;
+    --red: #ff4757;
+    --blue: #3b82f6;
+    --pink: #ec4899;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 800px; margin: 0 auto; padding: 60px 48px; }
+
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .client-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-ghost);
+    margin-bottom: 28px;
+  }
+
+  .header h1 {
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .header .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .section { margin-bottom: 48px; }
+
+  .section-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .section p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .feature.highlight { border-color: var(--accent); background: linear-gradient(180deg, rgba(200,255,0,0.03) 0%, var(--surface) 100%); }
+
+  .feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .feature h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .feature p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+  /* WORKFLOW */
+  .workflow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .workflow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .workflow-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    min-width: 32px;
+    text-align: center;
+  }
+
+  .workflow-content { flex: 1; }
+  .workflow-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+  .workflow-desc { font-size: 0.78rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* AGENT GRID */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .agent-category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .agent-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .agent-cat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .agent-cat-name { font-size: 0.85rem; font-weight: 700; }
+  .agent-cat-count { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-ghost); margin-left: auto; }
+
+  .agent-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .agent-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .agent-tag.custom {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* TABLE */
+  .included-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+
+  .included-table tr { border-bottom: 1px solid var(--border); }
+  .included-table tr:last-child { border-bottom: none; }
+
+  .included-table td {
+    padding: 14px 0;
+    vertical-align: top;
+  }
+
+  .included-table td:first-child {
+    font-weight: 600;
+    font-size: 0.85rem;
+    width: 200px;
+    color: var(--text);
+  }
+
+  .included-table td:last-child {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .check { color: var(--accent); margin-right: 6px; }
+
+  /* RESULTS */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .result-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .result-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+  .result-desc { font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
+
+  .footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer .cta { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+  .footer .cta span { color: var(--accent); }
+  .footer p { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 20px; }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-ghost);
+  }
+
+  .footer-links span { color: var(--accent); }
+
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-custom { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(200,255,0,0.2); }
+  .badge-included { background: rgba(0,212,255,0.1); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+
+  @media print {
+    body { background: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 40px 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">@lio &nbsp;·&nbsp; LIO OS</div>
+    <div class="client-label">Voorstel voor Beerthuizen Management</div>
+    <h1>AI <span>Full-Build</span></h1>
+    <div class="subtitle">
+      Een compleet AI-systeem op maat voor Beerthuizen Management. Leadgeneratie, content, influencer matching, event management en marktonderzoek — alles geautomatiseerd en 24/7 draaiend.
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Workflows</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">40+</div>
+      <div class="stat-label">AI Agents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">24/7</div>
+      <div class="stat-label">Altijd aan</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Week live</div>
+    </div>
+  </div>
+
+  <!-- JULLIE UITDAGING -->
+  <div class="section">
+    <div class="section-label">Jullie uitdaging</div>
+    <h2>Veel handmatig werk, te weinig uren</h2>
+    <p>
+      Beerthuizen Management combineert influencer marketing, event management, podcastverhuur en fotostudio's. Dat betekent: leads vinden op LinkedIn en Instagram, content maken voor meerdere pagina's, influencers matchen met merken, events organiseren en alles rapporteren. Handmatig kost dat een team van 5+ mensen.
+    </p>
+    <p>
+      Met dit AI-systeem automatiseren we de repetitieve taken zodat jullie team zich kan focussen op relaties, creativiteit en strategie — de dingen die echt het verschil maken.
+    </p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 6 OPLOSSINGEN -->
+  <div class="section">
+    <div class="section-label">Op maat gebouwd</div>
+    <h2>6 AI-systemen voor Beerthuizen</h2>
+
+    <div class="features">
+      <div class="feature highlight">
+        <div class="feature-icon">🎯</div>
+        <h3>1. Leadgeneratie & Outreach</h3>
+        <p>AI analyseert LinkedIn en Instagram profielen, identificeert marketingmanagers, eventmanagers en influencers, en stuurt persoonlijke berichten. Automatische follow-ups en call planning via Calendly.</p>
+      </div>
+      <div class="feature highlight">
+        <div class="feature-icon">📱</div>
+        <h3>2. Social Media & Content</h3>
+        <p>Wekelijkse content voor alle bedrijfspagina's. Tips over influencer marketing, studio nieuws, campagne resultaten. Teksten, visuals, planning en publicatie — volledig geautomatiseerd.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🤝</div>
+        <h3>3. Influencer Matching</h3>
+        <p>AI matcht influencers met merken op basis van niche, bereik, engagement en doelgroep. Strategie van A tot Z, inclusief ROI analyse na afloop.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎪</div>
+        <h3>4. Event Management</h3>
+        <p>Planning en organisatie van launches, brand trips en events. Deelnemerslijsten optimaliseren, uitnodigingen automatiseren, feedback verzamelen en rapportages genereren.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <h3>5. Markt- & Leadonderzoek</h3>
+        <p>Data-gedreven analyse van social media, websites en marktdata. Identificeert bedrijven en influencers die jullie diensten nodig hebben. Spottet trends voor strategische beslissingen.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>6. Rapportage & Analytics</h3>
+        <p>Automatische performance rapporten: engagement metrics, campagne ROI, lead conversie en content analyse. Elke week een helder overzicht zonder handmatig werk.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- WORKFLOWS -->
+  <div class="section">
+    <div class="section-label">Geautomatiseerde workflows</div>
+    <h2>3 kernprocessen — volledig op AI</h2>
+
+    <div class="workflow">
+      <div class="workflow-step">
+        <div class="workflow-num">W1</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Lead Pipeline</div>
+          <div class="workflow-desc">LinkedIn/Instagram profiel bekeken → AI analyseert relevantie → gepersonaliseerd bericht → follow-up sequentie → call planning via Calendly → CRM registratie. Volledig automatisch, van eerste contact tot geplande call.</div>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-num">W2</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Content Machine</div>
+          <div class="workflow-desc">Trends en nieuws scannen → content ideeën genereren → teksten en visuals maken → planning en publicatie → engagement analyseren → strategie optimaliseren. Wekelijks nieuwe content zonder handmatig schrijven.</div>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-num">W3</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Campagne & Event Support</div>
+          <div class="workflow-desc">Briefing ontvangen → influencer matching → strategie opstellen → uitvoering coördineren → deelnemers beheren → resultaten meten → rapportage genereren → optimalisatie suggesties. Van A tot Z ondersteund door AI.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- AGENTS -->
+  <div class="section">
+    <div class="section-label">Jullie AI-team</div>
+    <h2>40+ agents specifiek voor Beerthuizen</h2>
+    <p>
+      Elke agent heeft een specifieke taak. Agents met <span class="badge badge-custom">OP MAAT</span> worden speciaal voor Beerthuizen gebouwd. De rest komt uit de bewezen LIO OS bibliotheek.
+    </p>
+
+    <div class="agent-grid">
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(200,255,0,0.12)">🎯</div>
+          <div class="agent-cat-name">Leadgeneratie & Outreach</div>
+          <div class="agent-cat-count">8 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag custom">LinkedIn Lead Finder</span>
+          <span class="agent-tag custom">Profiel Analyzer</span>
+          <span class="agent-tag custom">Outreach Messenger</span>
+          <span class="agent-tag custom">Follow-Up Sequencer</span>
+          <span class="agent-tag custom">Call Scheduler</span>
+          <span class="agent-tag">Cold Outreach</span>
+          <span class="agent-tag">Lead Nurture</span>
+          <span class="agent-tag">Lead Responder</span>
+        </div>
+      </div>
+
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(91,143,185,0.12)">📱</div>
+          <div class="agent-cat-name">Content & Social Media</div>
+          <div class="agent-cat-count">10 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag">Content Machine</span>
+          <span class="agent-tag">Content Scripter</span>
+          <span class="agent-tag">Caption Writer</span>
+          <span class="agent-tag">Hook Generator</span>
+          <span class="agent-tag">Content Calendar</span>
+          <span class="agent-tag">Content Repurpose</span>
+          <span class="agent-tag">Instagram Carousel</span>
+          <span class="agent-tag">LinkedIn Article</span>
+          <span class="agent-tag">Social Graphics</span>
+          <span class="agent-tag">Hashtag Strategy</span>
+        </div>
+      </div>
+
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(236,72,153,0.12)">🤝</div>
+          <div class="agent-cat-name">Influencer Management</div>
+          <div class="agent-cat-count">6 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag custom">Influencer Matcher</span>
+          <span class="agent-tag custom">Campaign Strategist</span>
+          <span class="agent-tag custom">ROI Analyzer</span>
+          <span class="agent-tag">Influencer Outreach</span>
+          <span class="agent-tag">Influencer Campaign Brief</span>
+          <span class="agent-tag">Ambassador Program</span>
+        </div>
+      </div>
+
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(255,140,66,0.12)">🎪</div>
+          <div class="agent-cat-name">Event Management</div>
+          <div class="agent-cat-count">5 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag custom">Event Planner AI</span>
+          <span class="agent-tag custom">Deelnemers Manager</span>
+          <span class="agent-tag custom">Uitnodigingen Agent</span>
+          <span class="agent-tag">Event Follow-Up</span>
+          <span class="agent-tag">Event Run-of-Show</span>
+        </div>
+      </div>
+
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(168,85,247,0.12)">🔍</div>
+          <div class="agent-cat-name">Research & Analyse</div>
+          <div class="agent-cat-count">7 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag custom">Markt Researcher</span>
+          <span class="agent-tag custom">Trend Spotter</span>
+          <span class="agent-tag">Competitor Analyst</span>
+          <span class="agent-tag">Competitor Research</span>
+          <span class="agent-tag">Content Analyst</span>
+          <span class="agent-tag">Customer Persona</span>
+          <span class="agent-tag">Market Research</span>
+        </div>
+      </div>
+
+      <div class="agent-category">
+        <div class="agent-cat-header">
+          <div class="agent-cat-icon" style="background:rgba(0,212,255,0.12)">📊</div>
+          <div class="agent-cat-name">Rapportage & CRM</div>
+          <div class="agent-cat-count">6 agents</div>
+        </div>
+        <div class="agent-list">
+          <span class="agent-tag custom">Wekelijks Rapport</span>
+          <span class="agent-tag custom">Campagne Reporter</span>
+          <span class="agent-tag">Client CRM</span>
+          <span class="agent-tag">Growth Tracker</span>
+          <span class="agent-tag">Survey Builder</span>
+          <span class="agent-tag">Feedback Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- INTEGRATIES -->
+  <div class="section">
+    <div class="section-label">Koppelingen</div>
+    <h2>Direct verbonden met jullie tools</h2>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">💼</div>
+        <h3>LinkedIn</h3>
+        <p>Profielen analyseren, leads identificeren, connectieverzoeken en berichten versturen. Automatische outreach op schaal.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📸</div>
+        <h3>Instagram</h3>
+        <p>Content publiceren, engagement tracken, influencer profielen analyseren en DM automations voor leads.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Calendly / Zoom</h3>
+        <p>Automatisch calls inplannen na lead kwalificatie. Link meesturen in outreach berichten.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🗂️</div>
+        <h3>CRM & Data</h3>
+        <p>Notion, Airtable of GoHighLevel — leads, campagnes en events bijhouden in jullie eigen systeem.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📧</div>
+        <h3>Email & Communicatie</h3>
+        <p>Gmail, Slack of Telegram — automatische updates, rapporten en team communicatie.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚙️</div>
+        <h3>Automations</h3>
+        <p>n8n workflows die alles aan elkaar koppelen. Triggers, acties en notificaties — zonder handmatig werk.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- RESULTATEN -->
+  <div class="section">
+    <div class="section-label">Verwachte resultaten</div>
+    <h2>Wat dit oplevert voor Beerthuizen</h2>
+
+    <!-- KOSTENVERGELIJKING -->
+    <div style="background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:28px 32px;margin-bottom:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <div style="font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:4px">Zonder AI</div>
+          <div style="font-size:0.85rem;color:var(--text-dim)">Wat dit werk nu kost aan personeel</div>
+        </div>
+        <div>
+          <div style="font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:4px">Met AI</div>
+          <div style="font-size:0.85rem;color:var(--text-dim)">Eenmalige investering</div>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 0;font-size:0.82rem;color:var(--text-dim)">Social media manager</td>
+          <td style="padding:10px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--red);text-align:right">€3.000/mnd</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 0;font-size:0.82rem;color:var(--text-dim)">Lead generation specialist</td>
+          <td style="padding:10px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--red);text-align:right">€3.500/mnd</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 0;font-size:0.82rem;color:var(--text-dim)">Influencer coordinator</td>
+          <td style="padding:10px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--red);text-align:right">€2.500/mnd</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 0;font-size:0.82rem;color:var(--text-dim)">Virtuele assistent (rapportage, admin)</td>
+          <td style="padding:10px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--red);text-align:right">€1.500/mnd</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 0;font-size:0.85rem;font-weight:700;color:var(--text)">Totaal per maand</td>
+          <td style="padding:10px 0;font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--red);text-align:right">€10.500/mnd</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 0;font-size:0.85rem;font-weight:700;color:var(--text)">Totaal per jaar</td>
+          <td style="padding:14px 0;font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--red);text-align:right">€126.000/jaar</td>
+        </tr>
+      </table>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--accent);text-align:center">
+        <div style="font-size:0.95rem;font-weight:800;color:var(--accent)">Eenmalige investering — bespreken we in de call</div>
+      </div>
+    </div>
+
+    <!-- UREN BESPARING -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 32px;margin-bottom:24px">
+      <div style="font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px">Uren die jullie terugkrijgen — per week</div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">LinkedIn outreach & lead research</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">12 uur</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">Content schrijven & plannen (alle kanalen)</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">10 uur</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">Influencer matching & communicatie</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">8 uur</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">Event coördinatie & uitnodigingen</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">6 uur</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">Rapportages & data analyse</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">5 uur</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 0;font-size:0.82rem;color:var(--text-dim)">Follow-ups & CRM bijwerken</td>
+          <td style="padding:8px 0;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);text-align:right">4 uur</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 0;font-size:0.95rem;font-weight:800;color:var(--text)">Totaal per week</td>
+          <td style="padding:12px 0;font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:800;color:var(--accent);text-align:right">45 uur</td>
+        </tr>
+      </table>
+      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-dim)">Dat is meer dan een fulltime medewerker — elke week, 24/7, zonder ziektedagen of vakanties.</div>
+    </div>
+
+    <!-- RESULT CARDS -->
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-icon">⏱️</div>
+        <div class="result-title">45 uur/week bespaard</div>
+        <div class="result-desc">Meer dan een fulltime kracht — elke week terug</div>
+      </div>
+      <div class="result-card">
+        <div class="result-icon">💰</div>
+        <div class="result-title">€126K/jaar bespaard</div>
+        <div class="result-desc">Vervangt 4 rollen — terugverdiend in 6 weken</div>
+      </div>
+      <div class="result-card">
+        <div class="result-icon">🎯</div>
+        <div class="result-title">Betere leads</div>
+        <div class="result-desc">Data-gedreven targeting in plaats van handmatig zoeken</div>
+      </div>
+      <div class="result-card">
+        <div class="result-icon">📱</div>
+        <div class="result-title">Consistente content</div>
+        <div class="result-desc">Wekelijkse posts op alle kanalen zonder stress</div>
+      </div>
+      <div class="result-card">
+        <div class="result-icon">🤝</div>
+        <div class="result-title">Snellere matching</div>
+        <div class="result-desc">Influencers matchen met merken in minuten</div>
+      </div>
+      <div class="result-card">
+        <div class="result-icon">🚀</div>
+        <div class="result-title">Onbeperkt schaalbaar</div>
+        <div class="result-desc">Meer campagnes en events zonder meer mensen</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PROCES -->
+  <div class="section">
+    <div class="section-label">Het proces</div>
+    <h2>Van intake tot live in 1 week</h2>
+
+    <table class="included-table">
+      <tr>
+        <td><span class="check">01</span> Intake Call</td>
+        <td>We bespreken jullie exacte werkwijze, tools, doelen en welke processen prioriteit krijgen. We bepalen samen welke agents op maat gebouwd worden.</td>
+      </tr>
+      <tr>
+        <td><span class="check">02</span> Configuratie</td>
+        <td>Wij bouwen het complete systeem: alle agents, workflows, integraties en dashboard — specifiek voor Beerthuizen Management.</td>
+      </tr>
+      <tr>
+        <td><span class="check">03</span> Digitale Oplevering</td>
+        <td>Jullie ontvangen het volledige installatiepakket digitaal. Installatie op een Mac Mini of bestaande hardware.</td>
+      </tr>
+      <tr>
+        <td><span class="check">04</span> Installatie + Test</td>
+        <td>We lopen de installatie samen door via een call. Alles wordt getest met jullie echte LinkedIn, Instagram en CRM data.</td>
+      </tr>
+      <tr>
+        <td><span class="check">05</span> Onboarding</td>
+        <td>60 dagen persoonlijke begeleiding. We lopen elke workflow door, trainen het team en optimaliseren waar nodig.</td>
+      </tr>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- WAT ZIT ERIN -->
+  <div class="section">
+    <div class="section-label">Samenvatting</div>
+    <h2>Wat Beerthuizen krijgt</h2>
+
+    <table class="included-table">
+      <tr>
+        <td>AI Agents</td>
+        <td>40+ agents waarvan 15 op maat gebouwd voor jullie leadgeneratie, influencer matching en event management</td>
+      </tr>
+      <tr>
+        <td>AI Commands</td>
+        <td>Alle AI commands voor leadgeneratie, content, influencer matching, events en rapportage — specifiek geconfigureerd voor jullie workflows</td>
+      </tr>
+      <tr>
+        <td>Integraties</td>
+        <td>LinkedIn, Instagram, Calendly, CRM (Notion/Airtable/GHL), Gmail, n8n, Slack/Telegram</td>
+      </tr>
+      <tr>
+        <td>Custom Workflows</td>
+        <td>3 geautomatiseerde kernprocessen: Lead Pipeline, Content Machine, Campagne & Event Support</td>
+      </tr>
+      <tr>
+        <td>Dashboard</td>
+        <td>Live overzicht van leads, content, campagnes en agent activiteit</td>
+      </tr>
+      <tr>
+        <td>Onboarding</td>
+        <td>60 dagen persoonlijke begeleiding en team training</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="cta">Klaar om te <span>automatiseren</span>?</div>
+    <p>Laten we starten met de intake call</p>
+    <div class="footer-links">
+      <div><span>@</span> lio</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
