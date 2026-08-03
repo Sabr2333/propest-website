@@ -10,7 +10,7 @@ Next.js website voor [propest.ai](https://www.propest.ai).
 Alle sitebestanden staan in deze repository. De klant kan:
 
 1. **Downloaden als ZIP** — op GitHub: groene knop **Code** → **Download ZIP**
-2. **Clonen** — `git clone https://github.com/Sabr2333/propest-ai-website.git`
+2. **Clonen** — `git clone https://github.com/Sabr2333/propest-website.git`
 3. **Openen in Cursor** — map openen in [Cursor](https://cursor.com) om verder te bewerken met AI-assistentie
 
 ## Vereisten
