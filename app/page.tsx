@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import ElaraCardAnimation from "./components/ElaraCardAnimation";
+import HeroConfigurator from "./components/HeroConfigurator";
 import { ELARA_PROMO_LIVE } from "./config/elaraPromo";
 import { useLang } from "./context/LanguageContext";
 
@@ -1025,42 +1026,32 @@ export default function Home() {
 
       <div className="noise"></div>
       <div id="scroll-content">
-        <section className="hero">
-          <video className="hero-bg-video" autoPlay muted loop playsInline preload="auto" id="hero-video">
-            <source src="/type.mp4" type="video/mp4" />
-          </video>
-          <canvas id="hero-video-canvas" className="hero-bg-canvas"></canvas>
-          <canvas id="grain-canvas" className="hero-grain"></canvas>
-          <div className="hero-title-container">
-            <h1>
-              <div className="word" data-text={t('hero.title1')}>{t('hero.title1')}</div>
-              <br />
-              <div className="word" data-text={t('hero.title2')}>{t('hero.title2')}</div>
-            </h1>
-            <div className="hero-hacker-line" data-text={lang === 'en' ? 'CUSTOM AI' : 'MAATWERK AI'}>{lang === 'en' ? 'CUSTOM AI' : 'MAATWERK AI'}</div>
-            <div className="hero-subtitle">
-              {t('hero.subtitle')}
-            </div>
+        <section className="hero hero--bold">
+          <div className="hero-bg-layer" aria-hidden>
+            <video className="hero-bg-video" autoPlay muted loop playsInline preload="auto" id="hero-video">
+              <source src="/type.mp4" type="video/mp4" />
+            </video>
+            <canvas id="hero-video-canvas" className="hero-bg-canvas"></canvas>
+            <canvas id="grain-canvas" className="hero-grain"></canvas>
+            <div className="hero-bg-shade" />
           </div>
+          <div className="hero-bold-accent" aria-hidden />
 
-          <div className="hero-buttons">
-            <a href="https://www.propest.ai/vragenlijst?utm_source=facebook&utm_medium=cpc&utm_campaign=lead_ads&utm_content=ad1" className="hero-btn hero-btn-filled magnetic">{t('hero.cta1')}</a>
-            <a href="https://configurator.propest.ai/" className="hero-btn hero-btn-outline magnetic" target="_blank" rel="noopener noreferrer">{t('hero.cta2')}</a>
-          </div>
-
-          <div className="hero-tagline">
-            <div className="scroll-indicator">
-              <span>{t('hero.tagline')}</span>
-              <span>↓</span>
+          <div className="hero-bold-stack">
+            <div className="hero-title-container">
+              <h1>
+                <div className="word" data-text={t("hero.title1")}>{t("hero.title1")}</div>
+                <br />
+                <div className="word" data-text={t("hero.title2")}>{t("hero.title2")}</div>
+              </h1>
+              <div className="hero-hacker-line" data-text={lang === "en" ? "CUSTOM AI" : "MAATWERK AI"}>
+                {lang === "en" ? "CUSTOM AI" : "MAATWERK AI"}
+              </div>
             </div>
-            <a href={ELARA_PROMO_LIVE ? "/elara.html" : "/diensten/bedrijfsautomatisering"} className="service-link">{ELARA_PROMO_LIVE ? t('hero.service1') : t('diensten.bedrijfsautomatisering')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service2')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service3')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service4')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service5')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service6')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service7')}</a>
-            <a href="#diensten" className="service-link">{t('hero.service8')}</a>
+            <p className="hero-bold-lead">{t("hero.lead")}</p>
+            <div className="hero-bold-action">
+              <HeroConfigurator />
+            </div>
           </div>
 
           <div className="location-badge">
@@ -1076,16 +1067,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-cta-card" id="open-contact-modal" style={{ cursor: 'pointer' }}>
-            <Image src="/pot.webp" alt="Neem contact op" width={90} height={100} className="hero-cta-avatar" />
-            <div className="hero-cta-info">
-              <h4>{lang === 'en' ? 'Get in touch' : 'Neem contact op'}</h4>
-              <p>{lang === 'en' ? 'Talk to our AI experts, brainstorm about your AI strategy and potential successes.' : 'Praat met onze AI-experts, brainstorm over je AI-strategie en potentiële successen.'}</p>
-              <span className="hero-cta-btn">{lang === 'en' ? 'Contact us' : 'Contact opnemen'} <span className="hero-cta-dot"></span></span>
+          <div className="hero-tagline">
+            <div className="scroll-indicator">
+              <span>{t("hero.tagline")}</span>
+              <span>↓</span>
             </div>
+            <a href={ELARA_PROMO_LIVE ? "/elara.html" : "/diensten/bedrijfsautomatisering"} className="service-link">{ELARA_PROMO_LIVE ? t("hero.service1") : t("diensten.bedrijfsautomatisering")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service2")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service3")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service4")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service5")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service6")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service7")}</a>
+            <a href="#diensten" className="service-link">{t("hero.service8")}</a>
           </div>
-
-          </section>
+        </section>
 
         <section className="section-dark">
           <canvas id="grain-canvas-dark" className="hero-grain"></canvas>

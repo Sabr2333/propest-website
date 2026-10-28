@@ -57,8 +57,9 @@ export default function DienstFooter() {
         <div className="footer-bottom">
           <div className="footer-bottom-left">
             <span>{t('footer.copyright')}</span>
-            <a href="/cookie-beleid">{t('footer.privacy')}</a>
-            <a href="#">{t('footer.terms')}</a>
+            <a href="/privacybeleid">{t('footer.privacy')}</a>
+            <a href="/cookie-beleid">{t('footer.cookies')}</a>
+            <a href="/algemene-voorwaarden">{t('footer.terms')}</a>
           </div>
           <div className="footer-bottom-right">
             <a href="https://www.instagram.com/propest.ai/" target="_blank" rel="noopener noreferrer" className="footer-social" aria-label="Instagram">

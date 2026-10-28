@@ -252,7 +252,7 @@ export default function CookieBeleid() {
               <p><strong>Propest AI</strong></p>
               <p>Deltazijde 2 B2, 1261 ZM Blaricum</p>
               <p>
-                <a href="mailto:puur.io@outlook.com">puur.io@outlook.com</a>
+                <a href="mailto:info@propest.ai">info@propest.ai</a>
               </p>
               <p>
                 <a href="https://wa.me/31686081324">06 86081324</a>

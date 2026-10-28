@@ -25,6 +25,13 @@ const translations: Record<Lang, Record<string, string>> = {
     /* HERO */
     "hero.title1": "SCHAALBARE",
     "hero.title2": "GROEI",
+    "hero.lead": "Ontdek in 2 minuten gratis wat AI voor jouw bedrijf kan betekenen.",
+    "hero.cardTitle": "Start je gratis AI-configurator check",
+    "hero.emailPlaceholder": "Vul je e-mailadres in",
+    "hero.phonePlaceholder": "Telefoonnummer (optioneel)",
+    "hero.cardCta": "Start check",
+    "hero.cardError": "Vul een geldig e-mailadres in.",
+    "hero.socialProof": "Honderden organisaties verkennen AI-oplossingen met Propest AI. Ben jij de volgende?",
     "hero.cta1": "Kennismaken",
     "hero.cta2": "AI configurator",
     "hero.subtitle": "Wij bouwen op maat gemaakte Automatiseringen voor bedrijven die hun processen willen digitaliseren en versnellen.",
@@ -307,7 +314,8 @@ const translations: Record<Lang, Record<string, string>> = {
     "footer.careers": "Vacatures",
     "footer.contact-link": "Contact",
     "footer.copyright": "© 2026 Propest AI",
-    "footer.privacy": "Privacy Policy",
+    "footer.privacy": "Privacybeleid",
+    "footer.cookies": "Cookiebeleid",
     "footer.terms": "Algemene Voorwaarden",
 
     /* EXPERTISE */
@@ -509,6 +517,13 @@ const translations: Record<Lang, Record<string, string>> = {
     /* HERO */
     "hero.title1": "SCALABLE",
     "hero.title2": "GROWTH",
+    "hero.lead": "Find out in 2 minutes what AI can do for your business — free.",
+    "hero.cardTitle": "Start your free AI configurator check",
+    "hero.emailPlaceholder": "Enter your email address",
+    "hero.phonePlaceholder": "Phone number (optional)",
+    "hero.cardCta": "Start check",
+    "hero.cardError": "Please enter a valid email address.",
+    "hero.socialProof": "Hundreds of organizations explore AI solutions with Propest AI. Are you next?",
     "hero.cta1": "Get in touch",
     "hero.cta2": "AI configurator",
     "hero.subtitle": "We build custom automations for businesses that want to digitalize and accelerate their processes.",
@@ -820,6 +835,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "footer.contact-link": "Contact",
     "footer.copyright": "© 2026 Propest AI",
     "footer.privacy": "Privacy Policy",
+    "footer.cookies": "Cookie Policy",
     "footer.terms": "Terms and Conditions",
 
     /* EXPERTISE */
